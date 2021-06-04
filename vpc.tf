@@ -1,5 +1,5 @@
 resource "google_compute_network" "this" {
-  project                 = local.project
+  # project                 = local.project
   name                    = local.name
   auto_create_subnetworks = false
   routing_mode            = "REGIONAL"
@@ -14,8 +14,8 @@ resource "google_compute_network" "this" {
 #}
 
 resource "google_compute_subnetwork" "this" {
-  for_each                 = var.subnets
-  project                  = local.project
+  for_each = var.subnets
+  # project                  = local.project
   name                     = each.key
   ip_cidr_range            = each.value.cidr
   region                   = var.region
@@ -23,7 +23,7 @@ resource "google_compute_subnetwork" "this" {
   private_ip_google_access = true
 
   dynamic "secondary_ip_range" {
-    for_each = each.value.secondary-cidrs
+    for_each = lookup(each.value, "secondary-cidrs", {})
     content {
       range_name    = secondary_ip_range.key
       ip_cidr_range = secondary_ip_range.value

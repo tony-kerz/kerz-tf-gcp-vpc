@@ -1,11 +1,18 @@
 terraform {
   backend "gcs" {}
   required_providers {
-    google-beta = {
-      version = "~> 3.65.0"
-    }
+    # google-beta = {
+    #   version = "~> 3.65.0"
+    # }
+    google = {}
   }
 }
+
+# provider "google-beta" {
+#   #project = local.project
+#   region = var.region
+# }
+
 
 locals {
   env     = terraform.workspace
@@ -15,8 +22,8 @@ locals {
 
 resource "google_project_service" "this" {
   for_each = toset(var.apis)
-  project  = local.project
-  service  = each.value
+  #project  = local.project
+  service = each.value
 }
 
 

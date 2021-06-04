@@ -7,3 +7,4 @@ inspec.lock
 .ruby-version
 *.out
 *.log
+!.terraform.lock.hcl
